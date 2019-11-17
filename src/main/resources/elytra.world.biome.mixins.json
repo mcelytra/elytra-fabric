@@ -1,0 +1,24 @@
+{
+  "required": true,
+  "package": "org.mcelytra.fabric.mixins.world.biome",
+  "compatibilityLevel": "JAVA_8",
+  "server": [
+    "ForestBiomeMixin",
+    "PlainsBiomeMixin",
+    "SavannaBiomeMixin",
+    "SavannaPlateauBiomeMixin",
+    "ShatteredSavannaBiomeMixin",
+    "ShatteredSavannaPlateauBiomeMixin",
+    "SnowyTaigaBiomeMixin",
+    "SnowyTaigaHillsBiomeMixin",
+    "SnowyTaigaMountainsBiomeMixin",
+    "SwampBiomeMixin",
+    "SwampHillsBiomeMixin",
+    "TaigaBiomeMixin",
+    "TaigaHillsBiomeMixin",
+    "TaigaMountainsBiomeMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "id": "elytra",
+  "version": "${version}",
+  "name": "ElytraFabric",
+  "description": "An implementation of Elytra API.",
+  "authors": [
+    "LambdAurora"
+  ],
+  "contact": {
+    "homepage": "",
+    "sources": ""
+  },
+  "license": "",
+  "icon": "assets/modid/icon.png",
+  "environment": "server",
+  "entrypoints": {
+    "server": [
+      "org.mcelytra.fabric.FabricElytra"
+    ]
+  },
+  "mixins": [
+    {
+      "config": "elytra.mixins.json",
+      "environment": "server"
+    }
+  ],
+  "depends": {
+    "fabricloader": ">=0.4.0"
+  },
+  "suggests": {
+    "flamingo": "*"
+  }
+}

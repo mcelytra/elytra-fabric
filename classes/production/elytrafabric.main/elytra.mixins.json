@@ -1,0 +1,17 @@
+{
+  "required": true,
+  "package": "org.mcelytra.fabric.mixins",
+  "compatibilityLevel": "JAVA_8",
+  "server": [
+    "ArmorStandEntityMixin",
+    "EntityMixin",
+    "ServerPlayerEntityMixin",
+    "ServerPlayNetworkHandlerMixin",
+    "ServerQueryNetworkHandlerMixin",
+    "SwampBiomeMixin",
+    "SwampHillsBiomeMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
