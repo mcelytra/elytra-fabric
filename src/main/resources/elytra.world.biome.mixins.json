@@ -3,7 +3,13 @@
   "package": "org.mcelytra.fabric.mixins.world.biome",
   "compatibilityLevel": "JAVA_8",
   "server": [
+    "BirchForestBiomeMixin",
+    "BirchForestHillsBiomeMixin",
     "ForestBiomeMixin",
+    "GiantSpruceTaigaBiomeMixin",
+    "GiantSpruceTaigaHillsBiomeMixin",
+    "GiantTreeTaigaBiomeMixin",
+    "GiantTreeTaigaHillsBiomeMixin",
     "PlainsBiomeMixin",
     "SavannaBiomeMixin",
     "SavannaPlateauBiomeMixin",
@@ -16,7 +22,9 @@
     "SwampHillsBiomeMixin",
     "TaigaBiomeMixin",
     "TaigaHillsBiomeMixin",
-    "TaigaMountainsBiomeMixin"
+    "TaigaMountainsBiomeMixin",
+    "TallBirchForestBiomeMixin",
+    "WoodedBadlandsPlateauBiomeMixin"
   ],
   "injectors": {
     "defaultRequire": 1

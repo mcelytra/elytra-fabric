@@ -24,44 +24,30 @@ import net.minecraft.world.TestableWorld;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
 import net.minecraft.world.gen.chunk.ChunkGeneratorConfig;
 import net.minecraft.world.gen.feature.AbstractTreeFeature;
-import net.minecraft.world.gen.feature.TreeFeatureConfig;
 import org.aperlambda.lambdacommon.utils.Pair;
+import org.mcelytra.fabric.gen.config.FallenTreeFeatureConfig;
 
 import java.util.*;
 import java.util.function.Function;
 
-public class FallenTreeFeature extends AbstractTreeFeature<TreeFeatureConfig>
+public class FallenTreeFeature extends AbstractTreeFeature<FallenTreeFeatureConfig>
 {
-    private final BlockState log;
-    private final int        minimal_length;
-    private final int        variance;
-    private final boolean    snowy;
-
-    public FallenTreeFeature(Function<Dynamic<?>, ? extends TreeFeatureConfig> config_factory, BlockState log)
-    {
-        this(config_factory, log, 3, 2, false);
-    }
-
-    public FallenTreeFeature(Function<Dynamic<?>, ? extends TreeFeatureConfig> config_factory, BlockState log, int minimal_length, int variance, boolean snowy)
+    public FallenTreeFeature(Function<Dynamic<?>, ? extends FallenTreeFeatureConfig> config_factory)
     {
         super(config_factory);
-        this.log = log;
-        this.minimal_length = minimal_length;
-        this.variance = variance;
-        this.snowy = snowy;
     }
 
     @Override
-    protected boolean generate(ModifiableTestableWorld modifiableTestableWorld, Random random, BlockPos blockPos, Set<BlockPos> set, Set<BlockPos> set2, BlockBox blockBox, TreeFeatureConfig treeFeatureConfig)
+    protected boolean generate(ModifiableTestableWorld modifiableTestableWorld, Random random, BlockPos blockPos, Set<BlockPos> set, Set<BlockPos> set2, BlockBox blockBox, FallenTreeFeatureConfig treeFeatureConfig)
     {
         return false;
     }
 
     @Override
-    public boolean generate(IWorld world, ChunkGenerator<? extends ChunkGeneratorConfig> generator, Random random, BlockPos origin, TreeFeatureConfig config)
+    public boolean generate(IWorld world, ChunkGenerator<? extends ChunkGeneratorConfig> generator, Random random, BlockPos origin, FallenTreeFeatureConfig config)
     {
         // The fallen tree length.
-        int length = this.minimal_length + random.nextInt(this.variance);
+        int length = config.baseHeight + random.nextInt(config.variance);
 
         Direction.Axis axis = random.nextBoolean() ? Direction.Axis.X : Direction.Axis.Z;
         Direction direction = Direction.from(axis, random.nextBoolean() ? Direction.AxisDirection.POSITIVE : Direction.AxisDirection.NEGATIVE);
@@ -72,7 +58,7 @@ public class FallenTreeFeature extends AbstractTreeFeature<TreeFeatureConfig>
 
         boolean result;
         int i = 0;
-        while (!(result = generate(world, random, origin, length, direction)) && i < 2) {
+        while (!(result = generate(world, random, origin, length, direction, config)) && i < 2) {
             direction = direction.rotateYClockwise();
             i++;
         }
@@ -80,7 +66,7 @@ public class FallenTreeFeature extends AbstractTreeFeature<TreeFeatureConfig>
         return result;
     }
 
-    private boolean generate(IWorld world, Random random, BlockPos origin, int length, Direction direction)
+    private boolean generate(IWorld world, Random random, BlockPos origin, int length, Direction direction, FallenTreeFeatureConfig config)
     {
         Direction.Axis axis = direction.getAxis();
 
@@ -117,22 +103,22 @@ public class FallenTreeFeature extends AbstractTreeFeature<TreeFeatureConfig>
         }
 
         // First log
-        setBlockState(world, pos, log.with(LogBlock.AXIS, Direction.Axis.Y));
-        if (!this.snowy) {
+        setBlockState(world, pos, config.trunkProvider.getBlockState(random, pos).with(LogBlock.AXIS, Direction.Axis.Y));
+        if (!config.snowy) {
             Direction tmp = direction;
             for (int i = 0; i < 3; i++) {
                 tmp = tmp.rotateYClockwise();
-                if (random.nextBoolean())
+                if (random.nextBoolean() && is_air_or_vegetation(world, origin.offset(tmp)))
                     setBlockState(world, origin.offset(tmp), Blocks.VINE.getDefaultState().with(VineBlock.getFacingProperty(tmp.getOpposite()), true));
             }
         }
 
-        blocks.stream().peek(place_to -> setBlockState(world, place_to, log.with(LogBlock.AXIS, axis)))
+        blocks.stream().peek(place_to -> setBlockState(world, place_to, config.trunkProvider.getBlockState(random, pos).with(LogBlock.AXIS, axis)))
                 .map(place_to -> place_to.down(1))
                 .filter(place_to -> isNaturalDirtOrGrass(world, place_to))
                 .forEach(place_to -> setBlockState(world, place_to, Blocks.DIRT.getDefaultState()));
 
-        if (!this.snowy) {
+        if (!config.snowy) {
             blocks.stream().filter(place_to -> random.nextBoolean())
                     .map(place_to -> {
                         Direction vine_direction = random.nextBoolean() ? direction.rotateYClockwise() : direction.rotateYCounterclockwise();
@@ -140,13 +126,18 @@ public class FallenTreeFeature extends AbstractTreeFeature<TreeFeatureConfig>
                     })
                     .filter(data -> is_air_or_vegetation(world, data.get_key()))
                     .forEach(data -> setBlockState(world, data.get_key(), Blocks.VINE.getDefaultState().with(VineBlock.getFacingProperty(data.get_value().getOpposite()), true)));
+            if (config.mushrooms)
+                blocks.stream().filter(place_to -> random.nextInt(3) == 0)
+                        .map(place_to -> place_to.offset(Direction.UP))
+                        .filter(place_to -> is_air_or_vegetation(world, place_to))
+                        .forEach(place_to -> world.setBlockState(place_to, Blocks.BROWN_MUSHROOM.getDefaultState(), 2));
         }
         return true;
     }
 
     private boolean is_air_or_vegetation(TestableWorld world, BlockPos pos)
     {
-        return world.testBlockState(pos, (state) -> state.isAir() || state.matches(BlockTags.LEAVES) || state.matches(BlockTags.FLOWERS) || state.getBlock() == Blocks.GRASS);
+        return world.testBlockState(pos, (state) -> state.isAir() || state.matches(BlockTags.LEAVES) || state.matches(BlockTags.FLOWERS) || state.getBlock() == Blocks.GRASS || state.getBlock() == Blocks.FERN || state.getBlock() == Blocks.SNOW);
     }
 
     /**
