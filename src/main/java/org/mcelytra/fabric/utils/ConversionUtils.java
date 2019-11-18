@@ -19,6 +19,7 @@ import org.mcelytra.chat.ChatMessageType;
 import org.mcelytra.chat.ChatVisibility;
 import org.mcelytra.core.GameMode;
 import org.mcelytra.core.Hand;
+import org.mcelytra.core.Rarity;
 import org.mcelytra.core.ServerPing;
 
 public class ConversionUtils
@@ -95,7 +96,36 @@ public class ConversionUtils
         return GameMode.from_id(game_mode.getId());
     }
 
-    public static net.minecraft.util.Hand to_minecraft_hand(Hand hand) {
+    public static net.minecraft.util.Rarity to_minecraft_rarity(Rarity rarity)
+    {
+        switch (rarity) {
+            case UNCOMMON:
+                return net.minecraft.util.Rarity.UNCOMMON;
+            case RARE:
+                return net.minecraft.util.Rarity.RARE;
+            case EPIC:
+                return net.minecraft.util.Rarity.EPIC;
+            default:
+                return net.minecraft.util.Rarity.COMMON;
+        }
+    }
+
+    public static Rarity to_elytra_rarity(net.minecraft.util.Rarity rarity)
+    {
+        switch (rarity) {
+            case UNCOMMON:
+                return Rarity.UNCOMMON;
+            case RARE:
+                return Rarity.RARE;
+            case EPIC:
+                return Rarity.EPIC;
+            default:
+                return Rarity.COMMON;
+        }
+    }
+
+    public static net.minecraft.util.Hand to_minecraft_hand(Hand hand)
+    {
         return hand == Hand.OFF_HAND ? net.minecraft.util.Hand.OFF_HAND : net.minecraft.util.Hand.MAIN_HAND;
     }
 
