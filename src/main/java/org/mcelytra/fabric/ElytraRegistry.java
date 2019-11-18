@@ -9,7 +9,6 @@
 
 package org.mcelytra.fabric;
 
-import net.minecraft.block.Blocks;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.gen.feature.Feature;
@@ -26,8 +25,8 @@ public class ElytraRegistry
 {
     private static List<Feature> count = new ArrayList<>();
 
-    public static final Feature<FallenTreeFeatureConfig> FALLEN_TREE              = register(Registry.FEATURE, "fallen_tree", new FallenTreeFeature(FallenTreeFeatureConfig::deserialize));
-    public static final Feature<TreeFeatureConfig>       GROUND_BUSH              = register(Registry.FEATURE, "ground_bush", new JungleGroundBushFeature(TreeFeatureConfig::deserialize));
+    public static final Feature<FallenTreeFeatureConfig> FALLEN_TREE = register(Registry.FEATURE, "fallen_tree", new FallenTreeFeature(FallenTreeFeatureConfig::deserialize));
+    public static final Feature<TreeFeatureConfig>       GROUND_BUSH = register(Registry.FEATURE, "ground_bush", new JungleGroundBushFeature(TreeFeatureConfig::deserialize));
 
     private static <T extends Feature> T register(Registry<? super T> registry, String id, T entry)
     {

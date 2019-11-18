@@ -15,6 +15,9 @@
   "icon": "assets/modid/icon.png",
   "environment": "server",
   "entrypoints": {
+    "main": [
+      "org.mcelytra.fabric.ElytraEntrypoint"
+    ]
   },
   "mixins": [
     {
@@ -27,6 +30,10 @@
     },
     {
       "config": "elytra.world.biome.mixins.json",
+      "environment": "server"
+    },
+    {
+      "config": "elytra.world.dimension.mixins.json",
       "environment": "server"
     }
   ],

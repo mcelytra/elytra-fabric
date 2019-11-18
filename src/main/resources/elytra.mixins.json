@@ -6,6 +6,7 @@
     "MinecraftDedicatedServerMixin",
     "PlayerManagerMixin",
     "ServerPlayNetworkHandlerMixin",
+    "ServerPropertiesHandlerMixin",
     "ServerQueryNetworkHandlerMixin"
   ],
   "injectors": {
