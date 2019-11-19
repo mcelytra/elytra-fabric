@@ -15,6 +15,7 @@ minecraft {
 
 repositories {
 	mavenLocal()
+	maven { url = 'https://hub.spigotmc.org/nexus/content/groups/public/' }
 	maven { url = 'https://aperlambda.github.io/maven' }
 }
 
@@ -27,10 +28,10 @@ dependencies {
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modCompile "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 	
-	compile "org.mcelytra:elytra-core:1.0.0-SNAPSHOT"
+	implementation "org.mcelytra:elytra-core:1.0.0-SNAPSHOT"
 	include "org.mcelytra:elytra-core:1.0.0-SNAPSHOT"
 	include "org.mcelytra:elytra-chat:1.0.0-SNAPSHOT"
-	include "org.aperlambda:lambdajcommon:1.7.0"
+	include "org.aperlambda:lambdajcommon:1.7.1"
 	include "net.md-5:bungeecord-chat:1.12-SNAPSHOT"
 	include "com.electronwill.night-config:core:3.5.3"
 	include "com.electronwill.night-config:toml:3.5.3"

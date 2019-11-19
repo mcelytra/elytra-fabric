@@ -3,6 +3,7 @@
   "package": "org.mcelytra.fabric.mixins",
   "compatibilityLevel": "JAVA_8",
   "server": [
+    "DefaultedRegistryMixin",
     "MinecraftDedicatedServerMixin",
     "PlayerManagerMixin",
     "ServerPlayNetworkHandlerMixin",

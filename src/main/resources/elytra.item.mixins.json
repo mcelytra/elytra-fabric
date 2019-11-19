@@ -1,0 +1,12 @@
+{
+  "required": true,
+  "package": "org.mcelytra.fabric.mixins.item",
+  "compatibilityLevel": "JAVA_8",
+  "server": [
+    "ItemMixin",
+    "ItemStackMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

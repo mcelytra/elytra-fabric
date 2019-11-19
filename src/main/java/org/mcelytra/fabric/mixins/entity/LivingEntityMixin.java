@@ -24,6 +24,7 @@ import org.mcelytra.core.entity.EntityLiving;
 import org.mcelytra.core.entity.EntityPlayer;
 import org.mcelytra.core.event.entity.EntityDeathEvent;
 import org.mcelytra.core.event.entity.EntityResurrectEvent;
+import org.mcelytra.fabric.inventory.ElytraItemStack;
 import org.mcelytra.fabric.utils.ConversionUtils;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
@@ -221,9 +222,9 @@ public abstract class LivingEntityMixin extends EntityMixin implements EntityLiv
             if (mc_original_stack == null)
                 return false;
 
-            ItemStack mc_stack = mc_original_stack.copy();
+            ElytraItemStack mc_stack = ElytraItemStack.from_copy(mc_original_stack);
 
-            EntityResurrectEvent event = new EntityResurrectEvent(this, hand);
+            EntityResurrectEvent event = new EntityResurrectEvent(this, hand, mc_stack.copy());
             this.get_server().get_addon_manager().fire_event(event);
             if (event.is_cancelled())
                 return false;
@@ -234,7 +235,7 @@ public abstract class LivingEntityMixin extends EntityMixin implements EntityLiv
             if (this instanceof EntityPlayer) {
                 ServerPlayerEntity serverPlayerEntity_1 = (ServerPlayerEntity) (EntityPlayer) this;
                 serverPlayerEntity_1.incrementStat(Stats.USED.getOrCreateStat(Items.TOTEM_OF_UNDYING));
-                Criterions.USED_TOTEM.trigger(serverPlayerEntity_1, mc_stack);
+                Criterions.USED_TOTEM.trigger(serverPlayerEntity_1, mc_stack.get_handle());
             }
 
             this.set_health(1.0F);

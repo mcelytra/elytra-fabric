@@ -3,8 +3,10 @@
   "package": "org.mcelytra.fabric.mixins.entity",
   "compatibilityLevel": "JAVA_8",
   "server": [
+    "AnimalEntityMixin",
     "ArmorStandEntityMixin",
     "EntityMixin",
+    "FoxEntityMixin",
     "LivingEntityMixin",
     "ServerPlayerEntityMixin"
   ],

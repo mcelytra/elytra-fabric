@@ -29,6 +29,10 @@
       "environment": "server"
     },
     {
+      "config": "elytra.item.mixins.json",
+      "environment": "server"
+    },
+    {
       "config": "elytra.world.biome.mixins.json",
       "environment": "server"
     },
